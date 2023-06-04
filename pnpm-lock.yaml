@@ -200,8 +200,8 @@ importers:
         specifier: ^0.1.0
         version: link:../../packages/config/tailwind
       '@netlify/plugin-nextjs':
-        specifier: ^4.37.4
-        version: 4.37.4
+        specifier: ^4.36.1
+        version: 4.36.1
       '@types/node':
         specifier: ^18.16.5
         version: 18.16.5
@@ -3315,8 +3315,8 @@ packages:
       - supports-color
     dev: true
 
-  /@netlify/plugin-nextjs@4.37.4:
-    resolution: {integrity: sha512-3LMKzF/EMnsE8EAc6i3BVUBcnwTC0K80fMPprdVo6L315dkqgCNXhOOvsBWyG14U8yhgd2YuD+X78kykfvQtqA==}
+  /@netlify/plugin-nextjs@4.36.1:
+    resolution: {integrity: sha512-e7vmZht8OFWTueiCcMyp//u1sXYjGfjturUlh0wGjynvdFRBpYhJAl85gToRJGTvAthwJNGq9aLcgBuJWRMRIg==}
     engines: {node: '>=12.0.0'}
     dependencies:
       '@netlify/esbuild': 0.14.39
