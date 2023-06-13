@@ -1,9 +1,10 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { type DefaultSession, type NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 import { prisma } from "@acme/db";
 
-import { env } from "../env.mjs";
+// import { env } from "../env.mjs";
 
 /**
  * Module augmentation for `next-auth` types
@@ -20,10 +21,11 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    // ...other properties
+    // role: UserRole;
+    phoneNumber: string;
+  }
 }
 
 /**
@@ -43,14 +45,42 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(prisma),
   providers: [
-    /**
-     * ...add more providers here
-     *
-     * Most other providers require a bit more work than the Discord provider.
-     * For example, the GitHub provider requires you to add the
-     * `refresh_token_expires_in` field to the Account model. Refer to the
-     * NextAuth.js docs for the provider you want to use. Example:
-     * @see https://next-auth.js.org/providers/github
-     **/
+    CredentialsProvider({
+      name: "phone-credentials",
+      id: "phone-credentials",
+      type: "credentials",
+      credentials: {
+        phoneNumber: {
+          label: "Phone Number",
+          type: "text",
+          placeholder: "091234567890",
+        },
+        verificationToken: {
+          label: "Verification Code",
+          type: "text",
+        },
+      },
+      async authorize(credentials, _req) {
+        if (!credentials) {
+          return null;
+        }
+
+        const user = await prisma.user.findUnique({
+          where: { phoneNumber: credentials.phoneNumber },
+          include: { smsVerification: true },
+        });
+        if (!user || !user.smsVerification) return null;
+
+        const now = new Date();
+        if (
+          Number(now) > Number(user.smsVerification.expires) ||
+          user.smsVerification.token !== credentials.verificationToken
+        ) {
+          return null;
+        }
+
+        return user;
+      },
+    }),
   ],
 };
