@@ -1,7 +1,17 @@
 import { type NextPage } from "next";
 
+import { api } from "~/utils/api";
+
 const Login: NextPage = () => {
-  return <div>This is Login!</div>;
+  const comments = api.comment.getAll.useQuery();
+
+  return (
+    <ul>
+      {comments.data?.map((comment) => (
+        <li key={comment.id}>{comment.content}</li>
+      ))}
+    </ul>
+  );
 };
 
 export default Login;
