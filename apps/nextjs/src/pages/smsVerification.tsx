@@ -1,12 +1,15 @@
+import React, { useState } from "react";
 import { type NextPage } from "next";
 import Image from "next/image";
+import OtpInput from "react-otp-input";
 
-const Login: NextPage = () => {
+const smsVerification: NextPage = () => {
+  const [otp, setOtp] = useState("");
   return (
     <div className="m-auto flex h-screen w-screen max-w-7xl flex-wrap justify-center gap-5 p-5">
       <div className="flex flex-col  justify-center ">
         <div className="mr-au mb-1.5  text-3xl font-semibold text-black">
-          Login
+          SMS Verification
         </div>
         <div className="mb-11 max-w-lg text-xs text-black">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
@@ -27,13 +30,19 @@ const Login: NextPage = () => {
         action="submit"
         className="mt-4 flex flex-col items-start justify-center gap-2"
       >
-        <label htmlFor="" className="text-base">
-          Enter your phone number
-        </label>
-        <input
-          type="text"
-          className="h-[50px] w-[321px] rounded-md border-[0.5px] border-solid border-[#14224A]"
-        />
+        <div className="flex flex-col gap-2 self-center">
+          <label htmlFor="" className="text-base">
+            Please enter verification code
+          </label>
+          <OtpInput
+            inputStyle={`h-[50px] !w-[50px] rounded-md border-[0.5px] border-solid border-[#14224A] mx-auto`}
+            value={otp}
+            onChange={setOtp}
+            numInputs={4}
+            renderSeparator={<span>-</span>}
+            renderInput={(props) => <input {...props} />}
+          />
+        </div>
         <button
           type="submit"
           className="mt-11 h-[50px] w-[321px] rounded-md border-none bg-[#14224A] text-[18px] font-bold text-white"
@@ -45,4 +54,4 @@ const Login: NextPage = () => {
   );
 };
 
-export default Login;
+export default smsVerification;
