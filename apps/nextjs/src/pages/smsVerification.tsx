@@ -30,7 +30,7 @@ const smsVerification: NextPage = () => {
         action="submit"
         className="mt-4 flex flex-col items-start justify-center gap-2"
       >
-        <div className="flex flex-col gap-2 self-center">
+        <div className="flex flex-col gap-2 w-[220px] self-center">
           <label htmlFor="" className="text-base">
             Please enter verification code
           </label>
@@ -39,7 +39,6 @@ const smsVerification: NextPage = () => {
             value={otp}
             onChange={setOtp}
             numInputs={4}
-            renderSeparator={<span>-</span>}
             renderInput={(props) => <input {...props} />}
           />
         </div>
